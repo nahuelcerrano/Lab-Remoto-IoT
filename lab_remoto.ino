@@ -32,7 +32,7 @@ DHT dht(DHT_PIN, DHTTYPE);
 
 #define LED1_PIN 4  // Pin donde está conectado el LED
 #define LED2_PIN 13 // Pin donde está conectado el LED
-#define LED_ESP32_PIN  12
+#define LED3_PIN 2  // Pin built in de la placa
 #define VIB_PIN 25 //Sensor de vibracion
 #define MIC_PIN 35 //Sensor microfono
 
@@ -71,10 +71,10 @@ const char* mqtt_pass = "Axc45+23_";
 
 //const char * board_id = "AQF4556"; //placa 1
 //8uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x21};
-//const char * board_id = "AQF4352";  //placa 2
-//uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x22};
-const char * board_id = "AQF4573"; //placa 3
-uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x23};
+const char * board_id = "AQF4352";  //placa 2
+uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x22};
+//const char * board_id = "AQF4573"; //placa 3
+//uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x23};
 //const char * board_id = "AQF4254"; //placa 4
 //uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x24};
 //const char * board_id = "AQF4155"; //placa 5
@@ -132,6 +132,7 @@ void setup() {
 
   pinMode(LED1_PIN, OUTPUT);
   pinMode(LED2_PIN, OUTPUT);
+  pinMode(LED3_PIN, OUTPUT);
 
   pinMode(PIR_PIN, INPUT);
   pinMode(VIB_PIN, INPUT);
@@ -354,6 +355,17 @@ void callback(char* topic, byte* message, unsigned int length) {
           }else {
             Serial.println("off");
             digitalWrite(LED2_PIN, LOW);
+            publicar_ack("led2", "0");
+          }
+      }else if(doc["device"]=="led3"){
+          Serial.print("Led 2 ");
+          if(doc["value"] == "1"){
+            Serial.println("on");
+            digitalWrite(LED3_PIN, HIGH);
+            publicar_ack("led2", "1");
+          }else {
+            Serial.println("off");
+            digitalWrite(LED3_PIN, LOW);
             publicar_ack("led2", "0");
           }
       }else if (doc["device"]=="rel"){
