@@ -70,11 +70,11 @@ const char* mqtt_user = "lab_remoto_iot_ypf";
 const char* mqtt_pass = "Axc45+23_";
 
 //const char * board_id = "AQF4556"; //placa 1
-//8uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x21};
-const char * board_id = "AQF4352";  //placa 2
-uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x22};
-//const char * board_id = "AQF4573"; //placa 3
-//uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x23};
+//uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x21};
+//const char * board_id = "AQF4352";  //placa 2
+//uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x22};
+const char * board_id = "AQF4573"; //placa 3
+uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x23};
 //const char * board_id = "AQF4254"; //placa 4
 //uint8_t board_mac[6] = {0xDE, 0xAD, 0x01, 0xC4, 0x0A, 0x24};
 //const char * board_id = "AQF4155"; //placa 5
@@ -133,6 +133,8 @@ void setup() {
   pinMode(LED1_PIN, OUTPUT);
   pinMode(LED2_PIN, OUTPUT);
   pinMode(LED3_PIN, OUTPUT);
+
+  digitalWrite(LED3_PIN, HIGH);
 
   pinMode(PIR_PIN, INPUT);
   pinMode(VIB_PIN, INPUT);
@@ -358,15 +360,15 @@ void callback(char* topic, byte* message, unsigned int length) {
             publicar_ack("led2", "0");
           }
       }else if(doc["device"]=="led3"){
-          Serial.print("Led 2 ");
+          Serial.print("Led 3 ");
           if(doc["value"] == "1"){
             Serial.println("on");
-            digitalWrite(LED3_PIN, HIGH);
-            publicar_ack("led2", "1");
+            digitalWrite(LED3_PIN, LOW);
+            publicar_ack("led3", "1");
           }else {
             Serial.println("off");
-            digitalWrite(LED3_PIN, LOW);
-            publicar_ack("led2", "0");
+            digitalWrite(LED3_PIN, HIGH);
+            publicar_ack("led3", "0");
           }
       }else if (doc["device"]=="rel"){
           Serial.print("Rele ");
